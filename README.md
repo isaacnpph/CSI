@@ -1,0 +1,3 @@
+# CSI
+
+Collaborative Search Interface

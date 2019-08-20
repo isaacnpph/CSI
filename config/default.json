@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://isaacnpph:CSICluster666@csi-igcrg.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "mySecretToken"
+}
