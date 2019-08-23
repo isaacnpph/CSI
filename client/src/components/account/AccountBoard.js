@@ -8,7 +8,7 @@ import {
   deleteAccount,
   updateDeleteSession
 } from "../../actions/accountActions";
-import { Button } from "reactstrap";
+import { Segment, Button, Container, Header } from "semantic-ui-react";
 import SessionList from "./SessionList";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
@@ -60,23 +60,29 @@ const AccountBoard = ({
     <Spinner />
   ) : (
     <Fragment>
-      <p>Welcome {authentication.user && authentication.user.name}</p>
-      <SessionList sessions={sessions} user={user} loading={loading} />
-      <Link
-        style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
-        to="/edit-personal-details"
-        className="btn btn-secondary btn-sm"
-      >
-        Edit Personal Details
-      </Link>
-      <Button
-        size="sm"
-        color="danger"
-        style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
-        onClick={() => deleteAccount()}
-      >
-        Delete Account
-      </Button>
+      <Container className="main container">
+        <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
+          <Header>
+            Welcome {authentication.user && authentication.user.name}
+          </Header>
+          <SessionList sessions={sessions} user={user} loading={loading} />
+        </Segment>
+        <Link
+          style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
+          to="/edit-personal-details"
+          className="ui button"
+        >
+          Edit Personal Details
+        </Link>
+        <Button
+          size="sm"
+          color="danger"
+          style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
+          onClick={() => deleteAccount()}
+        >
+          Delete Account
+        </Button>
+      </Container>
     </Fragment>
   );
 };

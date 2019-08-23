@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from "react";
-import { Collapse, Button, CardBody, Card, CardText } from "reactstrap";
+import { Collapse, CardBody, Card, CardText } from "reactstrap";
 import PropTypes from "prop-types";
 import { removeComment } from "../../actions/sessionActions";
 import { connect } from "react-redux";
 import AddComment from "./AddComment";
 import Moment from "react-moment";
+import { Button } from "semantic-ui-react";
 
 const CommentSection = ({
   authentication,
@@ -23,32 +24,23 @@ const CommentSection = ({
     <Card key={comment._id} style={{ marginTop: "0.5rem" }}>
       <CardBody>
         <CardText>
-          {comment.name}: {comment.content}
+          <strong>{comment.name}: </strong> {comment.content}
           <br />
           Posted on: <Moment format="DD/MM/YYYY">{comment.date}</Moment>
         </CardText>
-        {!authentication.loading && comment.user === authentication.user._id && (
-          <Button
-            size="sm"
-            color="danger"
-            onClick={() => removeComment(session._id, searchId, comment._id)}
-          >
-            Remove Comment
-          </Button>
-        )}
+        {!authentication.loading &&
+          comment.user === authentication.user._id && (
+            <Button
+              icon="trash alternate outline"
+              onClick={() => removeComment(session._id, searchId, comment._id)}
+            />
+          )}
       </CardBody>
     </Card>
   ));
   return (
     <Fragment>
-      <Button
-        size="sm"
-        color="primary"
-        style={{ marginLeft: "0.3rem" }}
-        onClick={e => toggle(e)}
-      >
-        Comments {searchComments.length > 0 && searchComments.length}
-      </Button>
+      <Button icon="comments" onClick={e => toggle(e)} />
       <Collapse isOpen={collapse}>
         {searchComms.length === 0 && (
           <Card style={{ marginTop: "0.5rem" }}>

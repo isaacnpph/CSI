@@ -1,9 +1,9 @@
 import React from "react";
-import { Container } from "reactstrap";
+import { Container } from "semantic-ui-react";
 
 const AboutUs = () => {
   return (
-    <Container>
+    <Container className="main container">
       <div>
         <p> About Us </p>
       </div>

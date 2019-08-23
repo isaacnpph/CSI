@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Form, FormGroup, Label, Input } from "reactstrap";
 import {
   getCurrentUser,
   editPersonalDetails
 } from "../../actions/accountActions";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
+import { Button, Container } from "semantic-ui-react";
 
 const EditPersonalDetails = ({
   account: { loading, user },
@@ -35,7 +36,7 @@ const EditPersonalDetails = ({
     editPersonalDetails(formData, history);
   };
   return (
-    <Container>
+    <Container className="main container">
       <Form onSubmit={e => onSubmit(e)}>
         <FormGroup>
           <Label>Name</Label>
@@ -63,7 +64,7 @@ const EditPersonalDetails = ({
         <Link
           to="/account"
           style={{ marginLeft: "0.3rem" }}
-          className="btn btn-secondary btn-sm"
+          className="ui button"
         >
           Go Back To Account
         </Link>

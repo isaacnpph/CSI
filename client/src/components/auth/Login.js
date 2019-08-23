@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Container,
+  Grid,
+  Header,
+  Message,
+  Segment,
+  Button
+} from "semantic-ui-react";
 import { connect } from "react-redux";
+import { Form, FormGroup, Input } from "reactstrap";
 import PropTypes from "prop-types";
 import { loginUser } from "../../actions/authenticationActions";
 import { Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Login = ({ loginUser, isAuthenticated }) => {
   const [loginData, setLoginData] = useState({
     email: "",
     password: ""
   });
-
-  
 
   const { email, password } = loginData;
   const onChange = e =>
@@ -28,34 +35,48 @@ const Login = ({ loginUser, isAuthenticated }) => {
   }
 
   return (
-    <Container>
-      <Form onSubmit={e => onSubmit(e)}>
-        <FormGroup>
-          <Label>Enter email</Label>
-          <Input
-            type="text"
-            name="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={e => onChange(e)}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label>Enter password</Label>
-          <Input
-            type="password"
-            name="password"
-            placeholder="Enter password"
-            value={password}
-            onChange={e => onChange(e)}
-            required
-          />
-        </FormGroup>
-        <Button type="submit" value="Login">
-          Log in
-        </Button>
-      </Form>
+    <Container className="main container">
+      <Grid
+        textAlign="center"
+        style={{ height: "75vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Header as="h2" color="teal" textAlign="center">
+            Sign in to your account
+          </Header>
+          <Form onSubmit={e => onSubmit(e)}>
+            <Segment>
+              <FormGroup>
+                <Input
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={e => onChange(e)}
+                  required
+                />
+              </FormGroup>
+              <FormGroup>
+                <Input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={e => onChange(e)}
+                  required
+                />
+              </FormGroup>
+              <Button fluid size="large" type="submit" value="Login">
+                Sign in
+              </Button>
+            </Segment>
+          </Form>
+          <Message>
+            New to us? <Link to="/register">Sign Up</Link>
+          </Message>
+        </Grid.Column>
+      </Grid>
     </Container>
   );
 };

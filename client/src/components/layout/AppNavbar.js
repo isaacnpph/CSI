@@ -9,43 +9,47 @@ const AppNavbar = ({
   logout
 }) => {
   const privateLinks = (
-    <ul>
-      <Link style={{ marginLeft: "0.5rem" }} to="/account">
-        Account
+    <div className="right menu primary">
+      <Link className="item" to="/account">
+        <i className="user circle outline icon" />
+        My Account
       </Link>
-      <a onClick={logout} href="#!">
+      <a className="item" onClick={logout} href="#!">
         <i> </i>
-        Logout
+        <i className="sign out alternate icon" />
+        Sign out
       </a>
-    </ul>
+    </div>
   );
 
   const publicLinks = (
-    <ul>
-      <Link style={{ marginLeft: "0.5rem" }} to="/">
-        Home
+    <div className="right menu primary">
+      <Link to="/about" className="item">
+        <i className="globe icon" />
+        About CSI
       </Link>
-      <Link style={{ marginLeft: "0.5rem" }} to="/about">
-        About Us
-      </Link>
-      <Link style={{ marginLeft: "0.5rem" }} to="/contact">
+      <Link className="item" to="/contact">
+        <i className="edit outline icon" />
         Contact Us
       </Link>
-      <Link style={{ marginLeft: "0.5rem" }} to="/login">
-        Login
+      <Link className="item" to="/login">
+        <i className="sign in alternate icon" />
+        Sign in
       </Link>
-    </ul>
+    </div>
   );
 
   return (
-    <nav className="navbar bg-dark">
-      <h1>
-        <Link to="/">CSI</Link>
-      </h1>
-      {!loading && (
-        <Fragment>{isAuthenticated ? privateLinks : publicLinks}</Fragment>
-      )}
-    </nav>
+    <Fragment>
+      <div className="ui top fixed large menu main">
+        <Link className="item" to="/">
+          LOGO
+        </Link>
+        {!loading && (
+          <Fragment>{isAuthenticated ? privateLinks : publicLinks}</Fragment>
+        )}
+      </div>
+    </Fragment>
   );
 };
 

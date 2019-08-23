@@ -5,10 +5,15 @@ import Spinner from "../layout/Spinner";
 import { Link, withRouter } from "react-router-dom";
 import { getSessionById } from "../../actions/sessionActions";
 import SearchBox from "./SearchBox";
-import { Container, Row, Col, Jumbotron } from "reactstrap";
-// import QueryHistory from "./QueryHistory";
+import {
+  Container,
+  // Sidebar,
+  Segment,
+  Grid
+} from "semantic-ui-react";
 import HighlightedQueries from "./HighlightedQueries";
-import Chat from "./Chat";
+// import QueryHistory from "./QueryHistory";
+// import Chat from "./Chat";
 import InviteUserModal from "./InviteUserModal";
 import RemoveUserModal from "./RemoveUserModal";
 import {
@@ -90,50 +95,43 @@ const SessionView = ({
         <Spinner />
       ) : (
         <Fragment>
-          <Container>
-            <h1>{session.name}</h1>
-            {authentication.isAuthenticated &&
-              authentication.loading === false &&
-              authentication.user._id === session.author && (
-                <div>
-                  <InviteUserModal />
-                  <RemoveUserModal />
-                </div>
-              )}
-            <Link
-              style={{ marginBottom: "0.3rem" }}
-              to="/account"
-              className="btn btn-primary btn-sm"
-            >
-              Leave Session
-            </Link>
-            <Row>
-              <Col xs="6">
-                <Jumbotron fluid>
-                  <SearchBox />
-                </Jumbotron>
-              </Col>
-              <Col xs="6">
-                <Jumbotron fluid>
-                  <HighlightedQueries
-                    highlightedQueries={session.highlightedQueries}
-                    session={session}
-                  />
-                </Jumbotron>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Jumbotron fluid>
-                  <Chat />
-                </Jumbotron>
-              </Col>
-              {/* <Col xs="6">
-                <Jumbotron fluid>
-                  <QueryHistory />
-                </Jumbotron>
-              </Col> */}
-            </Row>
+          <Container className="main container">
+            <Grid columns={2} style={{ height: "90vh" }} divided>
+              <Grid.Row stretched>
+                <Grid.Column>
+                  <Segment style={{ overflow: "auto", maxHeight: "90vh" }}>
+                    <SearchBox />
+                  </Segment>
+                </Grid.Column>
+                <Grid.Column>
+                  <Segment
+                    style={{
+                      overflow: "auto",
+                      height: "90vh",
+                      maxHeight: "90vh"
+                    }}
+                  >
+                    {authentication.isAuthenticated &&
+                      authentication.loading === false &&
+                      authentication.user._id === session.author && (
+                        <div>
+                          <InviteUserModal />
+                          <RemoveUserModal />
+                        </div>
+                      )}
+                    <HighlightedQueries
+                      highlightedQueries={session.highlightedQueries}
+                      session={session}
+                    />
+                  </Segment>
+                </Grid.Column>
+                {/* <Grid.Column>
+                  <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
+                    <Chat />
+                  </Segment>
+                </Grid.Column> */}
+              </Grid.Row>
+            </Grid>
           </Container>
         </Fragment>
       )}

@@ -2,21 +2,13 @@ import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  Button,
-  Container,
-  Card,
-  CardHeader,
-  CardBody,
-  CardText,
-  CardFooter
-} from "reactstrap";
-import {
   addLike,
   removeLike,
   removeHighlightedSearch
 } from "../../actions/sessionActions";
 import CommentSection from "./CommentSection";
 import Moment from "react-moment";
+import { Container, Button, Item, Header } from "semantic-ui-react";
 
 const HighlightedQueries = ({
   removeHighlightedSearch,
@@ -26,61 +18,60 @@ const HighlightedQueries = ({
   session,
   authentication
 }) => {
-  const highlightedSearches = highlightedQueries.map(link => (
-    <Card style={{ marginTop: "0.5rem" }} key={link._id}>
-      <CardHeader>
-        <strong>{link.title}</strong>
-      </CardHeader>
-      <CardBody>
-        <CardText>{link.snippet}</CardText>
-        {link.link}
-        <br />
-        Added on: <Moment format="DD/MM/YYYY">{link.date}</Moment>
-      </CardBody>
-      <CardFooter>
-        <Button size="sm" href={link.link} target="_blank">
-          Visit
-        </Button>
-        <Button
-          size="sm"
-          style={{ marginLeft: "0.3rem" }}
-          onClick={() => addLike(session._id, link._id)}
-        >
-          Like {link.likes.length > 0 && link.likes.length}
-        </Button>
-        <Button
-          size="sm"
-          style={{ marginLeft: "0.3rem" }}
-          onClick={() => removeLike(session._id, link._id)}
-        >
-          Unlike
-        </Button>
-        {!authentication.loading && link.user === authentication.user._id && (
-          <Button
-            size="sm"
-            style={{ marginLeft: "0.3rem" }}
-            onClick={() => removeHighlightedSearch(session._id, link._id)}
-          >
-            Remove Search
-          </Button>
-        )}
-        <CommentSection
-          key={link._id}
-          session={session}
-          searchId={link._id}
-          searchComments={link.comments}
-        />
-      </CardFooter>
-    </Card>
-  ));
+  const highlightedSearches = (
+    <Item.Group divided>
+      {highlightedQueries.map(link => (
+        <Item key={link._id}>
+          <Item.Content>
+            <Item.Header>{link.title}</Item.Header>
+            <Item.Meta>
+              <a href={link.link} target="_blank">
+                {link.link}
+              </a>
+            </Item.Meta>
+            <Item.Description>{link.snippet}</Item.Description>
+            <Item.Extra>
+              <Button icon="eye" href={link.link} target="_blank" />
+              <Button
+                icon="thumbs up outline"
+                onClick={() => addLike(session._id, link._id)}
+              />
+              <Button
+                icon="thumbs down outline"
+                onClick={() => removeLike(session._id, link._id)}
+              />
+              {!authentication.loading &&
+                link.user === authentication.user._id && (
+                  <Button
+                    icon="trash alternate outline"
+                    onClick={() =>
+                      removeHighlightedSearch(session._id, link._id)
+                    }
+                  />
+                )}
+              <CommentSection
+                key={link._id}
+                session={session}
+                searchId={link._id}
+                searchComments={link.comments}
+              />
+            </Item.Extra>
+            <Item.Meta>
+              Comments: {link.comments.length}
+              <br />
+              Likes: {link.likes.length}
+              <br />
+              Added on: <Moment format="DD/MM/YYYY">{link.date}</Moment>
+            </Item.Meta>
+          </Item.Content>
+        </Item>
+      ))}
+    </Item.Group>
+  );
+
   return (
     <Fragment>
-      <Container>
-        <div>
-          <p> Highlighted Links </p>
-          <div>{highlightedSearches}</div>
-        </div>
-      </Container>
+      <Container>{highlightedSearches}</Container>
     </Fragment>
   );
 };

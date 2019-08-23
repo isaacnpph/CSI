@@ -2,7 +2,6 @@ import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  Button,
   Input,
   InputGroup,
   InputGroupAddon,
@@ -10,6 +9,7 @@ import {
   FormGroup
 } from "reactstrap";
 import { addComment } from "../../actions/sessionActions";
+import { Button } from "semantic-ui-react";
 
 const AddComment = ({ addComment, session, searchId }) => {
   const [content, setContent] = useState("");
@@ -31,9 +31,7 @@ const AddComment = ({ addComment, session, searchId }) => {
               required
             />
             <InputGroupAddon addonType="append">
-              <Button size="sm" color="secondary">
-                Add Comment
-              </Button>
+              <Button size="mini">Add Comment</Button>
             </InputGroupAddon>
           </InputGroup>
         </FormGroup>

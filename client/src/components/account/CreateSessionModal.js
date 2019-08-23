@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import {
-  Button,
   Form,
   FormGroup,
   Label,
@@ -10,6 +9,7 @@ import {
   ModalHeader,
   ModalBody
 } from "reactstrap";
+import { Button } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { createSession } from "../../actions/accountActions";
 
@@ -36,11 +36,7 @@ const CreateSession = ({ createSession }) => {
   };
   return (
     <Fragment>
-      <Button
-        size="sm"
-        style={{ marginTop: "0.3rem" }}
-        onClick={e => onClick(e)}
-      >
+      <Button style={{ marginTop: "0.3rem" }} onClick={e => onClick(e)}>
         Create Session
       </Button>
       <Modal isOpen={modal} toggle={e => onClick(e)}>

@@ -1,16 +1,10 @@
 import React, { Fragment, useState } from "react";
 import { googleSearchApi } from "../../actions/sessionActions";
 import { connect } from "react-redux";
-import {
-  Container,
-  Button,
-  Input,
-  InputGroup,
-  InputGroupAddon
-} from "reactstrap";
 import { addQuery } from "../../actions/queryActions";
 import PropTypes from "prop-types";
 import SearchResults from "./SearchResults";
+import { Container, Button, Input, Icon } from "semantic-ui-react";
 
 const SearchBox = ({
   addQuery,
@@ -37,35 +31,30 @@ const SearchBox = ({
   return (
     <Fragment>
       <Container>
-        <InputGroup>
-          <Input
-            type="text"
-            name="query"
-            onChange={e => onChange(e)}
-            value={query}
-            placeholder="e.g. Mango"
-          />
-          <InputGroupAddon addonType="append">
-            <Button color="secondary" onClick={e => onClick(e)}>
-              Search
-            </Button>
-          </InputGroupAddon>
-        </InputGroup>
+        <Input
+          fluid
+          icon={
+            <Icon
+              name="search"
+              inverted
+              circular
+              link
+              onClick={e => onClick(e)}
+            />
+          }
+          placeholder="Search..."
+          type="text"
+          name="query"
+          onChange={e => onChange(e)}
+          value={query}
+        />
         <SearchResults />
         {results.length >= 9 && (
           <div>
-            <Button
-              size="sm"
-              style={{ marginTop: "1rem", marginLeft: "1rem" }}
-              onClick={() => googleSearchApi(query, previousPage)}
-            >
+            <Button onClick={() => googleSearchApi(query, previousPage)}>
               Previous Page
             </Button>
-            <Button
-              size="sm"
-              style={{ marginTop: "1rem", marginLeft: "1rem" }}
-              onClick={() => googleSearchApi(query, nextPage)}
-            >
+            <Button onClick={() => googleSearchApi(query, nextPage)}>
               Next Page
             </Button>
           </div>

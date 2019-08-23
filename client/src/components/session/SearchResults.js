@@ -1,51 +1,43 @@
 import React, { Fragment } from "react";
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardText,
-  CardFooter
-} from "reactstrap";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { highlightSearch } from "../../actions/sessionActions";
+import { Button, Item } from "semantic-ui-react";
 
 const SearchResults = ({ highlightSearch, session: { session, results } }) => {
-  return (
-    <Fragment>
+  const googleResults = (
+    <Item.Group divided>
       {results.map(result => (
-        <Card style={{ marginTop: "0.5rem" }} key={result.title}>
-          <CardHeader>
-            <strong>{result.title}</strong>
-          </CardHeader>
-          <CardBody>
-            <CardText>{result.snippet}</CardText>
-            {result.displayLink}
-          </CardBody>
-          <CardFooter>
-            <Button size="sm" href={result.link} target="_blank">
-              Visit
-            </Button>
-            <Button
-              size="sm"
-              style={{ marginLeft: "1rem" }}
-              onClick={() =>
-                highlightSearch(
-                  result.title,
-                  result.snippet,
-                  result.link,
-                  session._id
-                )
-              }
-            >
-              Add
-            </Button>
-          </CardFooter>
-        </Card>
+        <Item key={result.title}>
+          <Item.Content>
+            <Item.Header>{result.title}</Item.Header>
+            <Item.Meta>
+              <a href={result.link} target="_blank">
+                {result.link}
+              </a>
+            </Item.Meta>
+            <Item.Description>{result.snippet}</Item.Description>
+            <Item.Extra>
+              <Button icon="eye" href={result.link} target="_blank" />
+              <Button
+                icon="heart outline"
+                onClick={() =>
+                  highlightSearch(
+                    result.title,
+                    result.snippet,
+                    result.link,
+                    session._id
+                  )
+                }
+              />
+            </Item.Extra>
+          </Item.Content>
+        </Item>
       ))}
-    </Fragment>
+    </Item.Group>
   );
+
+  return <Fragment>{googleResults}</Fragment>;
 };
 
 SearchResults.propTypes = {

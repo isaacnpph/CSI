@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
-import { Alert, ListGroup, ListGroupItem, Button } from "reactstrap";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { Button } from "semantic-ui-react";
+import { Alert } from "reactstrap";
+// import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 import { deleteSession } from "../../actions/accountActions";
 import { removeUser } from "../../actions/sessionActions";
@@ -17,54 +18,51 @@ const SessionList = ({
   user,
   loading
 }) => {
-
-  useEffect(() => {
-  }, [sessions])
+  useEffect(() => {}, [sessions]);
 
   const sesh = sessions;
   return loading === null ? (
     <Spinner />
   ) : sesh.length !== 0 ? (
     <Fragment>
-      <ListGroup>
-        <TransitionGroup className="session-list">
-          {sessions.map(({ _id, name, description, date, author }) => (
-            <CSSTransition key={_id} timeout={500} classNames="fade">
-              <ListGroupItem style={{ marginTop: "0.5rem" }}>
-                <p>{name}</p>
-                <p>{description}</p>
-                <p>Created on: <Moment format="DD/MM/YYYY">{date}</Moment></p>
-                <Link
-                  to={`/sessions/${_id}`}
-                  className="btn btn-primary btn-sm"
-                >
-                  Join Session
-                </Link>
-                {author === user._id ? (
-                  <Button
-                    size="sm"
-                    style={{ marginLeft: "0.3rem" }}
-                    onClick={() => deleteSession(_id)}
-                    className="btn btn-danger"
-                  >
-                    Delete Session
-                  </Button>
-                ) : (
-                  <Button
-                    size="sm"
-                    style={{ marginLeft: "0.3rem" }}
-                    color="danger"
-                    onClick={() => removeUser(user.email, _id)}
-                  >
-                    Leave Session
-                  </Button>
-                )}
-              </ListGroupItem>
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
-      </ListGroup>
       <CreateSessionModal />
+      {sessions.map(({ _id, name, description, date, author }) => (
+        <div className="ui segment" key={_id}>
+          <p>{name}</p>
+          <p>{description}</p>
+          <p>
+            Created on: <Moment format="DD/MM/YYYY">{date}</Moment>
+          </p>
+          <Link to={`/sessions/${_id}`} className="ui vertical animated button">
+            <div className="hidden content">Enter</div>
+            <div className="visible content">
+              <i className="edit outline icon" />
+            </div>
+          </Link>
+          {author === user._id ? (
+            <Button
+              className="ui vertical animated button"
+              tabindex="0"
+              onClick={() => deleteSession(_id)}
+            >
+              <div className="hidden content">Delete</div>
+              <div className="visible content">
+                <i className="trash alternate outline icon" />
+              </div>
+            </Button>
+          ) : (
+            <Button
+              className="ui vertical animated button"
+              onClick={() => removeUser(user.email, _id)}
+            >
+              <div className="hidden content">Leave</div>
+              <div className="visible content">
+                <i className="minus icon" />
+              </div>
+            </Button>
+          )}
+        </div>
+      ))}
     </Fragment>
   ) : (
     <Fragment>

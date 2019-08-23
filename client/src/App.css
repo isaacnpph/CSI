@@ -19,3 +19,11 @@
   opacity: 0.01;
   transition: opacity 1000ms ease-in;
 }
+
+.main.container {
+  padding-top: 60px;
+}
+
+.main.regPage {
+  padding-top: 100px;
+}

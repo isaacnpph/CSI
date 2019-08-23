@@ -18,7 +18,6 @@ import store from "./store";
 import { loadUser } from "./actions/authenticationActions";
 import setAuthToken from "./utilities/setAuthToken";
 import PrivateRoute from "./components/routing/PrivateRoute";
-// import SessionRoute from "./components/routing/SessionRoute";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
