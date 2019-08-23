@@ -12,7 +12,7 @@ import Chat from "./Chat";
 import InviteUserModal from "./InviteUserModal";
 import RemoveUserModal from "./RemoveUserModal";
 import {
-  highlightSearchUpdate, 
+  highlightSearchUpdate,
   removeHighlightedSearchUpdate,
   addLikeUpdate,
   removeLikeUpdate,
@@ -34,56 +34,62 @@ const SessionView = ({
   removeCommentUpdate,
   addCommentUpdate,
   removeUserUpdate,
-  socketState: {socket},
+  socketState: { socket }
 }) => {
-
-  if(socket == undefined) {
+  if (socket === undefined) {
     window.location.href = "/";
   }
 
   useEffect(() => {
-
-    socket.on('removedFromSession', async function(data) {
-      window.location.href = "/account"
+    socket.on("removedFromSession", async function(data) {
+      window.location.href = "/account";
       // await removeUserUpdate(data);
       // history.push('/account');
     });
 
-    socket.on('highlightSearchUpdate', function(data) {
+    socket.on("highlightSearchUpdate", function(data) {
       highlightSearchUpdate(data);
     });
 
-    socket.on('removedHighlightSearchUpdate', function(data) {
+    socket.on("removedHighlightSearchUpdate", function(data) {
       removeHighlightedSearchUpdate(data);
     });
 
-    socket.on('HighlightSearchLikeUpdate', function(data) {
+    socket.on("HighlightSearchLikeUpdate", function(data) {
       addLikeUpdate(data);
     });
 
-    socket.on('HighlightSearchUnlikeUpdate', function(data) {
+    socket.on("HighlightSearchUnlikeUpdate", function(data) {
       removeLikeUpdate(data);
     });
 
-    socket.on('HighlightSearchAddCommentUpdate', function(data) {
+    socket.on("HighlightSearchAddCommentUpdate", function(data) {
       addCommentUpdate(data);
     });
 
-    socket.on('HighlightSearchRemoveCommentUpdate', function(data) {
+    socket.on("HighlightSearchRemoveCommentUpdate", function(data) {
       removeCommentUpdate(data);
     });
 
     getSessionById(match.params.id);
-  }, [getSessionById, match.params.id]);
+  }, [
+    getSessionById,
+    addCommentUpdate,
+    addLikeUpdate,
+    highlightSearchUpdate,
+    removeCommentUpdate,
+    removeLikeUpdate,
+    socket,
+    removeHighlightedSearchUpdate,
+    match.params.id
+  ]);
 
   return (
-
     <Fragment>
       {session === null || loading ? (
         <Spinner />
       ) : (
         <Fragment>
-
           <Container>
             <h1>{session.name}</h1>
             {authentication.isAuthenticated &&
@@ -147,7 +153,18 @@ const mapStateToProps = state => ({
   socketState: state.socketReducer
 });
 
-export default withRouter(connect(
-  mapStateToProps,
-  { getSessionById, highlightSearchUpdate, removeHighlightedSearchUpdate, addLikeUpdate, removeLikeUpdate, removeUserUpdate, addCommentUpdate, removeCommentUpdate }
-)(SessionView));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    {
+      getSessionById,
+      highlightSearchUpdate,
+      removeHighlightedSearchUpdate,
+      addLikeUpdate,
+      removeLikeUpdate,
+      removeUserUpdate,
+      addCommentUpdate,
+      removeCommentUpdate
+    }
+  )(SessionView)
+);

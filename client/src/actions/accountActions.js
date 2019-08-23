@@ -80,16 +80,15 @@ export const getSessions = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    if(err.response != undefined){
+    if (err.response !== undefined) {
       dispatch({
         type: ACCOUNT_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status }
       });
-    }
-    else {
+    } else {
       dispatch({
         type: ACCOUNT_ERROR,
-        payload: { msg: 'unknown', status: 400 }
+        payload: { msg: "unknown", status: 400 }
       });
     }
   }
@@ -140,7 +139,6 @@ export const deleteSession = id => async dispatch => {
   }
 };
 
-
 export const updateDeleteSession = data => async dispatch => {
   try {
     dispatch({
@@ -153,4 +151,4 @@ export const updateDeleteSession = data => async dispatch => {
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
-}
+};

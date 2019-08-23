@@ -11,13 +11,10 @@ import {
 import { Button } from "reactstrap";
 import SessionList from "./SessionList";
 import { Link } from "react-router-dom";
-import io from 'socket.io-client';
-import {
-  setInitialSocket
-} from "../../actions/socketActions";
+import io from "socket.io-client";
+import { setInitialSocket } from "../../actions/socketActions";
 
 let socket;
-
 
 const AccountBoard = ({
   getCurrentUser,
@@ -29,29 +26,35 @@ const AccountBoard = ({
   socketState,
   authentication
 }) => {
-
   useEffect(() => {
     getCurrentUser();
     getSessions();
 
-
-    if(!socketState.socket_connected) {
-        socket = io.connect('http://localhost:5000', {query:"user_id=" + localStorage.getItem('user_id')});
-        setInitialSocket(socket);
-      }
-      else {
-        socket = socketState.socket;
-      }
-
-      socket.on('newUserAddedToSession', function(payload) {
-         getSessions();
+    if (!socketState.socket_connected) {
+      socket = io.connect("http://localhost:5000", {
+        query: "user_id=" + localStorage.getItem("user_id")
       });
+      setInitialSocket(socket);
+    } else {
+      socket = socketState.socket;
+    }
 
-      socket.on('sessionDeleted', function(payload) {
-        updateDeleteSession(payload.deletedSession._id);
-     });
-    
-  }, [ sessions]);
+    socket.on("newUserAddedToSession", function(payload) {
+      getSessions();
+    });
+
+    socket.on("sessionDeleted", function(payload) {
+      updateDeleteSession(payload.deletedSession._id);
+    });
+  }, [
+    getCurrentUser,
+    getSessions,
+    setInitialSocket,
+    socketState.socket,
+    socketState.socket_connected,
+    updateDeleteSession,
+    sessions
+  ]);
 
   return loading && authentication.user === null ? (
     <Spinner />
@@ -94,5 +97,11 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentUser, getSessions, deleteAccount, updateDeleteSession, setInitialSocket }
+  {
+    getCurrentUser,
+    getSessions,
+    deleteAccount,
+    updateDeleteSession,
+    setInitialSocket
+  }
 )(AccountBoard);
