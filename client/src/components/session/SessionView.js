@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { getSessionById } from "../../actions/sessionActions";
 import SearchBox from "./SearchBox";
 import { Container, Row, Col, Jumbotron } from "reactstrap";
@@ -11,23 +11,75 @@ import HighlightedQueries from "./HighlightedQueries";
 import Chat from "./Chat";
 import InviteUserModal from "./InviteUserModal";
 import RemoveUserModal from "./RemoveUserModal";
+import {
+  highlightSearchUpdate, 
+  removeHighlightedSearchUpdate,
+  addLikeUpdate,
+  removeLikeUpdate,
+  addCommentUpdate,
+  removeCommentUpdate,
+  removeUserUpdate
+} from "../../actions/sessionActions";
 
 const SessionView = ({
+  history,
   getSessionById,
   session: { session, loading },
   authentication,
-  match
+  highlightSearchUpdate,
+  addLikeUpdate,
+  match,
+  removeHighlightedSearchUpdate,
+  removeLikeUpdate,
+  removeCommentUpdate,
+  addCommentUpdate,
+  removeUserUpdate,
+  socketState: {socket},
 }) => {
+
   useEffect(() => {
+
+    socket.on('removedFromSession', async function(data) {
+      window.location.href = "/account"
+      // await removeUserUpdate(data);
+      // history.push('/account');
+    });
+
+    socket.on('highlightSearchUpdate', function(data) {
+      highlightSearchUpdate(data);
+    });
+
+    socket.on('removedHighlightSearchUpdate', function(data) {
+      removeHighlightedSearchUpdate(data);
+    });
+
+    socket.on('HighlightSearchLikeUpdate', function(data) {
+      addLikeUpdate(data);
+    });
+
+    socket.on('HighlightSearchUnlikeUpdate', function(data) {
+      removeLikeUpdate(data);
+    });
+
+    socket.on('HighlightSearchAddCommentUpdate', function(data) {
+      addCommentUpdate(data);
+    });
+
+    socket.on('HighlightSearchRemoveCommentUpdate', function(data) {
+      removeCommentUpdate(data);
+    });
+
     getSessionById(match.params.id);
   }, [getSessionById, match.params.id]);
 
   return (
+
     <Fragment>
       {session === null || loading ? (
         <Spinner />
       ) : (
         <Fragment>
+
           <Container>
             <h1>{session.name}</h1>
             {authentication.isAuthenticated &&
@@ -87,10 +139,11 @@ SessionView.propTypes = {
 
 const mapStateToProps = state => ({
   session: state.sessionReducer,
-  authentication: state.authenticationReducer
+  authentication: state.authenticationReducer,
+  socketState: state.socketReducer
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
-  { getSessionById }
-)(SessionView);
+  { getSessionById, highlightSearchUpdate, removeHighlightedSearchUpdate, addLikeUpdate, removeLikeUpdate, removeUserUpdate, addCommentUpdate, removeCommentUpdate }
+)(SessionView));

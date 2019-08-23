@@ -1,15 +1,30 @@
-const express = require("express");
+const app = require('express')();
 const path = require("path");
 const connectDB = require("./config/db");
 const cors = require("cors");
-
-const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+const bodyParser = require('body-parser');
 
 // Connect database
 connectDB();
 
 // init middleware
-app.use(express.json({ extended: false }));
+app.use(bodyParser.json());
+
+
+global.socket_clients = []
+
+// Socket.io
+io.on('connection', function(socket){
+    
+    let handshake = socket.request;
+    global.socket_clients.push({
+        user_id: handshake._query['user_id'],
+        socket
+    });
+});
+
 
 // Enable CORS
 app.use(cors());
@@ -32,4 +47,4 @@ app.use("/api/auth", require("./routes/api/auth"));
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+server.listen(port, () => console.log(`Server started on port ${port}`));

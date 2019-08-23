@@ -7,6 +7,8 @@ const Query = require("../../models/Query");
 const router = express.Router();
 const fetch = require("node-fetch");
 
+let socket_clients = global.socket_clients;
+
 // @route  GET api/sessions/session-by-id/:session_id
 // @desc   Get a session by its ID
 // @access Private
@@ -62,6 +64,7 @@ router.get("/user", auth, async (req, res) => {
 // @access Private
 router.post("/", auth, async (req, res) => {
   try {
+
     const newSession = new Session({
       author: req.user.id,
       name: req.body.name,
@@ -81,6 +84,16 @@ router.post("/", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   try {
     const deletedSession = await Session.findByIdAndRemove(req.params.id);
+
+    deletedSessionUsers = deletedSession.invitedUsers;
+
+    for(let i=0; i < deletedSessionUsers.length; i++) {
+      for(let j=0; j < socket_clients.length; j++){
+         if(socket_clients[j].user_id == deletedSessionUsers[i]);
+            socket_clients[j].socket.emit('sessionDeleted', {deletedSession});
+        }
+    }
+
     res.json(deletedSession._id);
   } catch (err) {
     console.error(err.message);
@@ -93,9 +106,15 @@ router.delete("/:id", auth, async (req, res) => {
 // @access Private
 router.put("/invitedUsers/:session_id", auth, async (req, res) => {
   try {
+    
     const { email } = req.body;
     const user = await User.findOne({ email });
     const session = await Session.findById(req.params.session_id);
+
+
+    let socket = await socket_clients.filter(x => x.user_id == user._id);
+    socket = socket[socket.length-1].socket;
+
 
     // check if user's already added
     for (var i = 0; i < session.invitedUsers.length; i++) {
@@ -118,7 +137,7 @@ router.put("/invitedUsers/:session_id", auth, async (req, res) => {
     session.invitedUsers.unshift(user);
     await session.save();
 
-    // await pusher.trigger("invite-user", "user-invited", session);
+    socket.emit('newUserAddedToSession', {session});
 
     res.json(session);
   } catch (err) {
@@ -128,7 +147,7 @@ router.put("/invitedUsers/:session_id", auth, async (req, res) => {
 });
 
 // @route  DELETE api/sessions/invitedUsers/remove/:session_id/:user_email"
-// @desc   Remove a user from the session / Leave session
+// @desc   Remove a user f user from the session / Leave session
 // @access Private
 router.delete(
   "/invitedUsers/remove/:session_id/:user_email",
@@ -139,6 +158,14 @@ router.delete(
       const session = await Session.findById(req.params.session_id);
       session.invitedUsers.remove(user);
       await session.save();
+
+      let socket = socket_clients.filter(socket_client => {
+        return socket_client.user_id == user._id; 
+      })
+
+      socket = socket[socket.length-1].socket;
+      socket.emit('removedFromSession', session);
+
       res.json(session._id);
     } catch (err) {
       console.error(err.message);
@@ -220,6 +247,20 @@ router.put(
       // add query to highlighted queries
       session.highlightedQueries.unshift(search);
       await session.save();
+
+      let sessionUsers = session.invitedUsers;
+      sessionUsers.push(session.author);
+
+
+      for(let i=0; i<sessionUsers.length; i++) {
+        for(let j=0; j < socket_clients.length; j++) {
+          if(sessionUsers[i] == socket_clients[j].user_id && sessionUsers[i] != search.user) {
+            socket_clients[j].socket.emit('highlightSearchUpdate', session);
+          }
+        }
+      }
+
+      
       res.json(session);
     } catch (err) {
       console.error(err.message);
@@ -239,6 +280,20 @@ router.delete(
     try {
       session.highlightedQueries.remove(req.params.search_id);
       await session.save();
+
+      let sessionUsers = session.invitedUsers;
+      sessionUsers.push(session.author);
+
+
+      for(let i=0; i<sessionUsers.length; i++) {
+        for(let j=0; j < socket_clients.length; j++) {
+          if(sessionUsers[i] == socket_clients[j].user_id && sessionUsers[i] != req.user.id) {
+            
+            socket_clients[j].socket.emit('removedHighlightSearchUpdate', session);
+          }
+        }
+      }
+
       res.json(session);
     } catch (err) {
       console.error(err.message);
@@ -271,6 +326,20 @@ router.put("/like/:session_id/:search_id", auth, async (req, res) => {
 
     highlightedLink.likes.unshift({ user: req.user.id });
     await session.save();
+
+    let sessionUsers = session.invitedUsers;
+      sessionUsers.push(session.author);
+
+
+      for(let i=0; i<sessionUsers.length; i++) {
+        for(let j=0; j < socket_clients.length; j++) {
+          if(sessionUsers[i] == socket_clients[j].user_id && sessionUsers[i] != req.user.id) {
+            
+            socket_clients[j].socket.emit('HighlightSearchLikeUpdate', session);
+          }
+        }
+      }
+
     res.json(session);
   } catch (err) {
     console.error(err.message);
@@ -306,6 +375,20 @@ router.put("/unlike/:session_id/:search_id", auth, async (req, res) => {
     // remove the like
     highlightedLink.likes.splice(removeLike, 1);
     await session.save();
+
+    let sessionUsers = session.invitedUsers;
+      sessionUsers.push(session.author);
+
+
+      for(let i=0; i<sessionUsers.length; i++) {
+        for(let j=0; j < socket_clients.length; j++) {
+          if(sessionUsers[i] == socket_clients[j].user_id && sessionUsers[i] != req.user.id) {
+            
+            socket_clients[j].socket.emit('HighlightSearchUnlikeUpdate', session);
+          }
+        }
+      }
+
     res.json(session);
   } catch (err) {
     console.error(err.message);
@@ -351,6 +434,20 @@ router.post(
       }
 
       await session.save();
+
+      let sessionUsers = session.invitedUsers;
+      sessionUsers.push(session.author);
+
+
+      for(let i=0; i<sessionUsers.length; i++) {
+        for(let j=0; j < socket_clients.length; j++) {
+          if(sessionUsers[i] == socket_clients[j].user_id && sessionUsers[i] != req.user.id) {
+            
+            socket_clients[j].socket.emit('HighlightSearchAddCommentUpdate', session);
+          }
+        }
+      }
+
       res.json(session);
     } catch (err) {
       console.error(err.message);
@@ -398,6 +495,20 @@ router.delete(
       highlightedLink.comments.splice(removeIndex, 1);
 
       await session.save();
+
+      let sessionUsers = session.invitedUsers;
+      sessionUsers.push(session.author);
+
+
+      for(let i=0; i<sessionUsers.length; i++) {
+        for(let j=0; j < socket_clients.length; j++) {
+          if(sessionUsers[i] == socket_clients[j].user_id && sessionUsers[i] != req.user.id) {
+            
+            socket_clients[j].socket.emit('HighlightSearchRemoveCommentUpdate', session);
+          }
+        }
+      }
+
       res.json(session);
     } catch (err) {
       console.error(err.message);

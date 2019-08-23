@@ -39,3 +39,8 @@ export const GET_COMMENTS = "GET_COMMENTS";
 export const COMMENT_ADDED = "COMMENT_ADDED";
 export const COMMENT_DELETED = "COMMENT_DELETED";
 export const UPDATE_LIKES = "UPDATE_LIKES";
+
+
+//socket reducer types
+export const SOCKET_INIT = "SOCKET_INIT";
+export const GET_SOCKET = "GET_SOCKET";
