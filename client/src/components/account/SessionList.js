@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Alert, ListGroup, ListGroupItem, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
@@ -17,6 +17,10 @@ const SessionList = ({
   user,
   loading
 }) => {
+
+  useEffect(() => {
+  }, [sessions])
+
   const sesh = sessions;
   return loading === null ? (
     <Spinner />

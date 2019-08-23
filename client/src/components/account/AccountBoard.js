@@ -5,23 +5,53 @@ import Spinner from "../layout/Spinner";
 import {
   getCurrentUser,
   getSessions,
-  deleteAccount
+  deleteAccount,
+  updateDeleteSession
 } from "../../actions/accountActions";
 import { Button } from "reactstrap";
 import SessionList from "./SessionList";
 import { Link } from "react-router-dom";
+import io from 'socket.io-client';
+import {
+  setInitialSocket
+} from "../../actions/socketActions";
+
+let socket;
+
 
 const AccountBoard = ({
   getCurrentUser,
   getSessions,
   deleteAccount,
+  updateDeleteSession,
+  setInitialSocket,
   account: { sessions, loading, user },
+  socketState,
   authentication
 }) => {
+
   useEffect(() => {
     getCurrentUser();
     getSessions();
-  }, [getCurrentUser, getSessions, loading]);
+
+
+    if(!socketState.socket_connected) {
+        socket = io.connect('http://localhost:5000', {query:"user_id=" + localStorage.getItem('user_id')});
+        setInitialSocket(socket);
+      }
+      else {
+        socket = socketState.socket;
+      }
+
+      socket.on('newUserAddedToSession', function(payload) {
+         getSessions();
+      });
+
+      socket.on('sessionDeleted', function(payload) {
+        updateDeleteSession(payload.deletedSession._id);
+     });
+    
+  }, [ sessions]);
 
   return loading && authentication.user === null ? (
     <Spinner />
@@ -58,10 +88,11 @@ AccountBoard.propTypes = {
 
 const mapStateToProps = state => ({
   authentication: state.authenticationReducer,
-  account: state.accountReducer
+  account: state.accountReducer,
+  socketState: state.socketReducer
 });
 
 export default connect(
   mapStateToProps,
-  { getCurrentUser, getSessions, deleteAccount }
+  { getCurrentUser, getSessions, deleteAccount, updateDeleteSession, setInitialSocket }
 )(AccountBoard);

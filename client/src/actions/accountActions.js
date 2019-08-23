@@ -80,10 +80,18 @@ export const getSessions = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
-    dispatch({
-      type: ACCOUNT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    if(err.response != undefined){
+      dispatch({
+        type: ACCOUNT_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
+    else {
+      dispatch({
+        type: ACCOUNT_ERROR,
+        payload: { msg: 'unknown', status: 400 }
+      });
+    }
   }
 };
 
@@ -131,3 +139,18 @@ export const deleteSession = id => async dispatch => {
     }
   }
 };
+
+
+export const updateDeleteSession = data => async dispatch => {
+  try {
+    dispatch({
+      type: SESSION_DELETED,
+      payload: data
+    });
+  } catch (err) {
+    dispatch({
+      type: ACCOUNT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+}
