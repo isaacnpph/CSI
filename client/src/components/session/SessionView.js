@@ -37,6 +37,10 @@ const SessionView = ({
   socketState: {socket},
 }) => {
 
+  if(socket == undefined) {
+    window.location.href = "/";
+  }
+
   useEffect(() => {
 
     socket.on('removedFromSession', async function(data) {
