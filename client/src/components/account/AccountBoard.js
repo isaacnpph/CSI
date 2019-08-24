@@ -13,6 +13,7 @@ import SessionList from "./SessionList";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import { setInitialSocket } from "../../actions/socketActions";
+import CreateSessionModal from "./CreateSessionModal";
 
 let socket;
 
@@ -52,12 +53,26 @@ const AccountBoard = ({
     setInitialSocket,
     socketState.socket,
     socketState.socket_connected,
-    updateDeleteSession,
-    socket
+    updateDeleteSession
   ]);
-  const sesh = sessions;
-  return sesh.length === 0 ? (
-    <Spinner />
+  return sessions.length === 0 ? (
+    <Container className="main container">
+      <Header>Welcome {authentication.user && authentication.user.name}</Header>
+      <CreateSessionModal />
+      <Link
+        style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
+        to="/edit-personal-details"
+        className="ui button"
+      >
+        Edit Personal Details <Icon name="settings" />
+      </Link>
+      <Button
+        style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
+        onClick={() => deleteAccount()}
+      >
+        Delete Account
+      </Button>
+    </Container>
   ) : (
     <Fragment>
       <Container className="main container">
@@ -65,6 +80,7 @@ const AccountBoard = ({
           <Header>
             Welcome {authentication.user && authentication.user.name}
           </Header>
+          <CreateSessionModal />
           <SessionList userSessions={sessions} user={user} loading={loading} />
         </Segment>
         <Link

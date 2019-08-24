@@ -7,7 +7,6 @@ import { deleteSession } from "../../actions/accountActions";
 import { removeUser } from "../../actions/sessionActions";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import CreateSessionModal from "./CreateSessionModal";
 import Moment from "react-moment";
 
 const SessionList = ({ userSessions, deleteSession, removeUser, user }) => {
@@ -60,12 +59,7 @@ const SessionList = ({ userSessions, deleteSession, removeUser, user }) => {
       ))}
     </Item.Group>
   );
-  return (
-    <Fragment>
-      <CreateSessionModal />
-      {sessionList}
-    </Fragment>
-  );
+  return <Fragment>{sessionList}</Fragment>;
 };
 
 SessionList.propTypes = {

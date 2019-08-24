@@ -33,7 +33,6 @@ const SessionView = ({
   removeLikeUpdate,
   removeCommentUpdate,
   addCommentUpdate,
-  removeUserUpdate,
   socketState: { socket }
 }) => {
   if (socket === undefined) {
@@ -43,8 +42,6 @@ const SessionView = ({
   useEffect(() => {
     socket.on("removedFromSession", async function(data) {
       window.location.href = "/account";
-      // await removeUserUpdate(data);
-      // history.push('/account');
     });
 
     socket.on("highlightSearchUpdate", function(data) {
