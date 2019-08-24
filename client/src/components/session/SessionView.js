@@ -22,7 +22,6 @@ import {
 } from "../../actions/sessionActions";
 
 const SessionView = ({
-  history,
   getSessionById,
   session: { session, loading },
   authentication,
@@ -40,6 +39,9 @@ const SessionView = ({
   }
 
   useEffect(() => {
+    if (socket === null) {
+      window.location.href = "/account";
+    }
     socket.on("removedFromSession", async function(data) {
       window.location.href = "/account";
     });
