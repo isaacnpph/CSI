@@ -47,13 +47,13 @@ const AccountBoard = ({
       updateDeleteSession(payload.deletedSession._id);
     });
   }, [
-    getCurrentUser,
-    getSessions,
-    setInitialSocket,
-    socketState.socket,
-    socketState.socket_connected,
-    updateDeleteSession,
-    sessions
+    // getCurrentUser,
+    // getSessions
+    // setInitialSocket,
+    // socketState.socket,
+    // socketState.socket_connected,
+    // updateDeleteSession,
+    // sessions
   ]);
 
   return loading && sessions && authentication.user === null ? (

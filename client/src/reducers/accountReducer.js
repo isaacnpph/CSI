@@ -4,7 +4,6 @@ import {
   CLEAR_USER,
   SESSION_CREATED,
   GET_SESSIONS,
-  CLEAR_SESSIONS,
   SESSION_DELETED,
   USER_REMOVED_FROM_SESSION
 } from "../actions/types";
@@ -30,19 +29,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         sessions: [payload, ...state.sessions],
-        loading: true
+        loading: false
       };
     case GET_SESSIONS:
       return {
         ...state,
         sessions: payload,
         loading: false
-      };
-    case CLEAR_SESSIONS:
-      return {
-        user: null,
-        sessions: [],
-        loading: true
       };
     case USER_REMOVED_FROM_SESSION:
     case SESSION_DELETED:
@@ -61,7 +54,7 @@ export default function(state = initialState, action) {
         ...state,
         user: null,
         sessions: [],
-        loading: true
+        loading: false
       };
     default:
       return state;

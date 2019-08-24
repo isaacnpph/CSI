@@ -69,7 +69,7 @@ export default function(state = initialState, action) {
         nextPage: null,
         previousPage: null,
         results: [],
-        loading: true
+        loading: false
       };
     case SESSION_ERROR:
       return {

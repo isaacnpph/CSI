@@ -2,12 +2,12 @@ import axios from "axios";
 import {
   GET_USER,
   ACCOUNT_ERROR,
-  USER_LOADED,
   USER_DELETED,
   SESSION_CREATED,
   GET_SESSIONS,
   SESSION_DELETED,
-  CLEAR_SESSION
+  CLEAR_SESSION,
+  CLEAR_USER
 } from "./types";
 
 // get current user
@@ -41,10 +41,6 @@ export const editPersonalDetails = (formData, history) => async dispatch => {
       type: GET_USER,
       payload: res.data
     });
-    dispatch({
-      type: USER_LOADED,
-      payload: res.data
-    });
 
     history.push("/account");
   } catch (err) {}
@@ -60,7 +56,7 @@ export const deleteAccount = () => async dispatch => {
     try {
       await axios.delete("/api/users");
 
-      // dispatch({ type: CLEAR_USER });
+      dispatch({ type: CLEAR_USER });
       dispatch({ type: USER_DELETED });
     } catch (err) {
       dispatch({

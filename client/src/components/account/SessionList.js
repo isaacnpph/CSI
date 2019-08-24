@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Segment, Button, Item } from "semantic-ui-react";
+import { Button, Item } from "semantic-ui-react";
 import { Alert } from "reactstrap";
 // import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
@@ -18,8 +18,6 @@ const SessionList = ({
   user,
   loading
 }) => {
-  useEffect(() => {}, [sessions]);
-
   const sessionList = (
     <Item.Group divided>
       {sessions.map(session => (
@@ -45,7 +43,6 @@ const SessionList = ({
               {session.author === user._id ? (
                 <Button
                   className="ui vertical animated button"
-                  tabindex="0"
                   onClick={() => deleteSession(session._id)}
                 >
                   <div className="hidden content">Delete</div>
@@ -70,7 +67,6 @@ const SessionList = ({
       ))}
     </Item.Group>
   );
-
   const sesh = sessions;
   return loading === null ? (
     <Spinner />

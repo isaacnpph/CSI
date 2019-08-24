@@ -65,7 +65,7 @@ const CreateSession = ({ createSession }) => {
                 required
               />
             </FormGroup>
-            <Button color="dark" style={{ marginTop: "2rem" }} block>
+            <Button style={{ marginTop: "2rem" }} block>
               Create Session
             </Button>
           </Form>

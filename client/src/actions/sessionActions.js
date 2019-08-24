@@ -42,7 +42,12 @@ export const highlightSearch = (
       "Content-Type": "application/json"
     }
   };
-  const body = JSON.stringify({ title, snippet, link, user_id:localStorage.getItem('user_id') });
+  const body = JSON.stringify({
+    title,
+    snippet,
+    link,
+    user_id: localStorage.getItem("user_id")
+  });
   try {
     const res = await axios.put(
       `/api/sessions/highlightedQueries/${sessionId}`,
@@ -66,14 +71,13 @@ export const highlightSearch = (
   }
 };
 
-
-// 
+//
 export const highlightSearchUpdate = data => async dispatch => {
   dispatch({
     type: GET_SESSION,
     payload: data
   });
-} 
+};
 
 // remvoe a highlighted link
 export const removeHighlightedSearch = (
@@ -100,7 +104,6 @@ export const removeHighlightedSearch = (
   }
 };
 
-
 export const removeHighlightedSearchUpdate = data => async dispatch => {
   try {
     dispatch({
@@ -118,7 +121,6 @@ export const removeHighlightedSearchUpdate = data => async dispatch => {
     });
   }
 };
-
 
 // invite a user to the session
 export const inviteUser = (formData, sessionId) => async dispatch => {
