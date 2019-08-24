@@ -20,60 +20,64 @@ const SessionList = ({
 }) => {
   useEffect(() => {}, [sessions]);
 
+  const sessionList = (
+    <Item.Group divided>
+      {sessions.map(session => (
+        <Item key={session._id}>
+          <Item.Content>
+            <Item.Header>{session.name}</Item.Header>
+            <Item.Meta>
+              <span>
+                Created: <Moment format="DD/MM/YYYY">{session.date}</Moment>
+              </span>
+            </Item.Meta>
+            <Item.Description>{session.description}</Item.Description>
+            <Item.Extra>
+              <Link
+                to={`/sessions/${session._id}`}
+                className="ui vertical animated button"
+              >
+                <div className="hidden content">Enter</div>
+                <div className="visible content">
+                  <i className="users icon" />
+                </div>
+              </Link>
+              {session.author === user._id ? (
+                <Button
+                  className="ui vertical animated button"
+                  tabindex="0"
+                  onClick={() => deleteSession(session._id)}
+                >
+                  <div className="hidden content">Delete</div>
+                  <div className="visible content">
+                    <i className="trash alternate outline icon" />
+                  </div>
+                </Button>
+              ) : (
+                <Button
+                  className="ui vertical animated button"
+                  onClick={() => removeUser(user.email, session._id)}
+                >
+                  <div className="hidden content">Leave</div>
+                  <div className="visible content">
+                    <i className="minus icon" />
+                  </div>
+                </Button>
+              )}
+            </Item.Extra>
+          </Item.Content>
+        </Item>
+      ))}
+    </Item.Group>
+  );
+
   const sesh = sessions;
   return loading === null ? (
     <Spinner />
   ) : sesh.length !== 0 ? (
     <Fragment>
       <CreateSessionModal />
-      <Item.Group divided>
-        {sessions.map(({ _id, name, description, date, author }) => (
-          <Item key={_id}>
-            <Item.Content>
-              <Item.Header>{name}</Item.Header>
-              <Item.Meta>
-                <span>
-                  Created: <Moment format="DD/MM/YYYY">{date}</Moment>
-                </span>
-              </Item.Meta>
-              <Item.Description>{description}</Item.Description>
-              <Item.Extra>
-                <Link
-                  to={`/sessions/${_id}`}
-                  className="ui vertical animated button"
-                >
-                  <div className="hidden content">Enter</div>
-                  <div className="visible content">
-                    <i className="users icon" />
-                  </div>
-                </Link>
-                {author === user._id ? (
-                  <Button
-                    className="ui vertical animated button"
-                    tabindex="0"
-                    onClick={() => deleteSession(_id)}
-                  >
-                    <div className="hidden content">Delete</div>
-                    <div className="visible content">
-                      <i className="trash alternate outline icon" />
-                    </div>
-                  </Button>
-                ) : (
-                  <Button
-                    className="ui vertical animated button"
-                    onClick={() => removeUser(user.email, _id)}
-                  >
-                    <div className="hidden content">Leave</div>
-                    <div className="visible content">
-                      <i className="minus icon" />
-                    </div>
-                  </Button>
-                )}
-              </Item.Extra>
-            </Item.Content>
-          </Item>
-        ))}
-      </Item.Group>
+      {sessionList}
     </Fragment>
   ) : (
     <Fragment>

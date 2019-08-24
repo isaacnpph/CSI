@@ -56,7 +56,7 @@ const AccountBoard = ({
     sessions
   ]);
 
-  return loading && authentication.user === null ? (
+  return loading && sessions && authentication.user === null ? (
     <Spinner />
   ) : (
     <Fragment>
