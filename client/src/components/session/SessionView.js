@@ -124,7 +124,7 @@ const SessionView = ({
                 </Grid.Column>
                 <Grid.Column>
                   <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
-                    <Chat />
+                    <Chat socket={socket} session={session} />
                   </Segment>
                 </Grid.Column>
               </Grid.Row>
