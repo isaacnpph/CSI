@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Button, Item } from "semantic-ui-react";
-import { Alert } from "reactstrap";
+// import { Alert } from "reactstrap";
 // import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 import { deleteSession } from "../../actions/accountActions";

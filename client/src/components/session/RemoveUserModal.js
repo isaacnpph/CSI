@@ -46,9 +46,7 @@ const RemoveUserModal = ({ session: { session }, removeUser }) => {
                 onChange={e => setFormData(e.target.value)}
                 required
               />
-              <Button style={{ marginTop: "2rem" }} block>
-                Remove User
-              </Button>
+              <Button style={{ marginTop: "2rem" }}>Remove User</Button>
             </FormGroup>
           </Form>
         </ModalBody>

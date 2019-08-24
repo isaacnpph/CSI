@@ -51,9 +51,7 @@ const InviteUserModal = ({ session: { session }, inviteUser }) => {
                 onChange={e => onChange(e)}
                 required
               />
-              <Button style={{ marginTop: "2rem" }} block>
-                Add User
-              </Button>
+              <Button style={{ marginTop: "2rem" }}>Add User</Button>
             </FormGroup>
           </Form>
         </ModalBody>

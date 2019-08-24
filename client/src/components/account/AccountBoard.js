@@ -47,13 +47,12 @@ const AccountBoard = ({
       updateDeleteSession(payload.deletedSession._id);
     });
   }, [
-    // getCurrentUser,
-    // getSessions
-    // setInitialSocket,
-    // socketState.socket,
-    // socketState.socket_connected,
-    // updateDeleteSession,
-    // sessions
+    getCurrentUser,
+    getSessions,
+    setInitialSocket,
+    socketState.socket,
+    socketState.socket_connected,
+    updateDeleteSession
   ]);
   const sesh = sessions;
   return sesh.length === 0 ? (
