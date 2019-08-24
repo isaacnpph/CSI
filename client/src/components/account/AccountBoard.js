@@ -52,7 +52,8 @@ const AccountBoard = ({
     setInitialSocket,
     socketState.socket,
     socketState.socket_connected,
-    updateDeleteSession
+    updateDeleteSession,
+    socket
   ]);
   const sesh = sessions;
   return sesh.length === 0 ? (
