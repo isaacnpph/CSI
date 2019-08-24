@@ -42,9 +42,7 @@ const Login = ({ loginUser, isAuthenticated }) => {
         verticalAlign="middle"
       >
         <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h2" color="teal" textAlign="center">
-            Sign in to your account
-          </Header>
+          <Header textAlign="center">Sign in to your account</Header>
           <Form onSubmit={e => onSubmit(e)}>
             <Segment>
               <FormGroup>

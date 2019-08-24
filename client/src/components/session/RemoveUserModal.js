@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import {
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
@@ -12,6 +11,7 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import { removeUser } from "../../actions/sessionActions";
+import { Button } from "semantic-ui-react";
 
 const RemoveUserModal = ({ session: { session }, removeUser }) => {
   const [formData, setFormData] = useState("");
@@ -30,13 +30,7 @@ const RemoveUserModal = ({ session: { session }, removeUser }) => {
 
   return (
     <Fragment>
-      <Button
-        size="sm"
-        style={{ marginBottom: "0.3rem", marginLeft: "0.3rem" }}
-        onClick={e => onClick(e)}
-      >
-        Remove User
-      </Button>
+      <Button circular icon="remove user" onClick={e => onClick(e)} />
       <Modal isOpen={modal} toggle={e => onClick(e)}>
         <ModalHeader toggle={e => onClick(e)}>
           Remove user from the session

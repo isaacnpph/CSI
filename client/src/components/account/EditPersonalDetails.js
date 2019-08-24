@@ -58,7 +58,7 @@ const EditPersonalDetails = ({
             onChange={e => onChange(e)}
           />
         </FormGroup>
-        <Button size="sm" type="submit" value="EditPersonalDetails">
+        <Button type="submit" value="EditPersonalDetails">
           Edit Personal Details
         </Button>
         <Link

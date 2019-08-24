@@ -2,18 +2,13 @@ import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { getSessionById } from "../../actions/sessionActions";
 import SearchBox from "./SearchBox";
-import {
-  Container,
-  // Sidebar,
-  Segment,
-  Grid
-} from "semantic-ui-react";
+import { Container, Segment, Grid, Header } from "semantic-ui-react";
 import HighlightedQueries from "./HighlightedQueries";
 // import QueryHistory from "./QueryHistory";
-// import Chat from "./Chat";
+import Chat from "./Chat";
 import InviteUserModal from "./InviteUserModal";
 import RemoveUserModal from "./RemoveUserModal";
 import {
@@ -96,10 +91,21 @@ const SessionView = ({
       ) : (
         <Fragment>
           <Container className="main container">
-            <Grid columns={2} style={{ height: "90vh" }} divided>
+            <Header>
+              Session name: {session.name}
+              {authentication.isAuthenticated &&
+                authentication.loading === false &&
+                authentication.user._id === session.author && (
+                  <div>
+                    <InviteUserModal />
+                    <RemoveUserModal />
+                  </div>
+                )}
+            </Header>
+            <Grid columns={3} style={{ height: "80vh" }} divided>
               <Grid.Row stretched>
                 <Grid.Column>
-                  <Segment style={{ overflow: "auto", maxHeight: "90vh" }}>
+                  <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
                     <SearchBox />
                   </Segment>
                 </Grid.Column>
@@ -107,29 +113,21 @@ const SessionView = ({
                   <Segment
                     style={{
                       overflow: "auto",
-                      height: "90vh",
-                      maxHeight: "90vh"
+                      height: "80vh",
+                      maxHeight: "80vh"
                     }}
                   >
-                    {authentication.isAuthenticated &&
-                      authentication.loading === false &&
-                      authentication.user._id === session.author && (
-                        <div>
-                          <InviteUserModal />
-                          <RemoveUserModal />
-                        </div>
-                      )}
                     <HighlightedQueries
                       highlightedQueries={session.highlightedQueries}
                       session={session}
                     />
                   </Segment>
                 </Grid.Column>
-                {/* <Grid.Column>
+                <Grid.Column>
                   <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
                     <Chat />
                   </Segment>
-                </Grid.Column> */}
+                </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>

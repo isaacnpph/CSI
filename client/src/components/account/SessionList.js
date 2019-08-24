@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { Button } from "semantic-ui-react";
+import { Segment, Button, Item } from "semantic-ui-react";
 import { Alert } from "reactstrap";
 // import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
@@ -26,43 +26,54 @@ const SessionList = ({
   ) : sesh.length !== 0 ? (
     <Fragment>
       <CreateSessionModal />
-      {sessions.map(({ _id, name, description, date, author }) => (
-        <div className="ui segment" key={_id}>
-          <p>{name}</p>
-          <p>{description}</p>
-          <p>
-            Created on: <Moment format="DD/MM/YYYY">{date}</Moment>
-          </p>
-          <Link to={`/sessions/${_id}`} className="ui vertical animated button">
-            <div className="hidden content">Enter</div>
-            <div className="visible content">
-              <i className="edit outline icon" />
-            </div>
-          </Link>
-          {author === user._id ? (
-            <Button
-              className="ui vertical animated button"
-              tabindex="0"
-              onClick={() => deleteSession(_id)}
-            >
-              <div className="hidden content">Delete</div>
-              <div className="visible content">
-                <i className="trash alternate outline icon" />
-              </div>
-            </Button>
-          ) : (
-            <Button
-              className="ui vertical animated button"
-              onClick={() => removeUser(user.email, _id)}
-            >
-              <div className="hidden content">Leave</div>
-              <div className="visible content">
-                <i className="minus icon" />
-              </div>
-            </Button>
-          )}
-        </div>
-      ))}
+      <Item.Group divided>
+        {sessions.map(({ _id, name, description, date, author }) => (
+          <Item key={_id}>
+            <Item.Content>
+              <Item.Header>{name}</Item.Header>
+              <Item.Meta>
+                <span>
+                  Created: <Moment format="DD/MM/YYYY">{date}</Moment>
+                </span>
+              </Item.Meta>
+              <Item.Description>{description}</Item.Description>
+              <Item.Extra>
+                <Link
+                  to={`/sessions/${_id}`}
+                  className="ui vertical animated button"
+                >
+                  <div className="hidden content">Enter</div>
+                  <div className="visible content">
+                    <i className="users icon" />
+                  </div>
+                </Link>
+                {author === user._id ? (
+                  <Button
+                    className="ui vertical animated button"
+                    tabindex="0"
+                    onClick={() => deleteSession(_id)}
+                  >
+                    <div className="hidden content">Delete</div>
+                    <div className="visible content">
+                      <i className="trash alternate outline icon" />
+                    </div>
+                  </Button>
+                ) : (
+                  <Button
+                    className="ui vertical animated button"
+                    onClick={() => removeUser(user.email, _id)}
+                  >
+                    <div className="hidden content">Leave</div>
+                    <div className="visible content">
+                      <i className="minus icon" />
+                    </div>
+                  </Button>
+                )}
+              </Item.Extra>
+            </Item.Content>
+          </Item>
+        ))}
+      </Item.Group>
     </Fragment>
   ) : (
     <Fragment>

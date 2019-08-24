@@ -18,7 +18,12 @@ const SearchResults = ({ highlightSearch, session: { session, results } }) => {
             </Item.Meta>
             <Item.Description>{result.snippet}</Item.Description>
             <Item.Extra>
-              <Button icon="eye" href={result.link} target="_blank" />
+              <Button
+                icon="eye"
+                href={result.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
               <Button
                 icon="heart outline"
                 onClick={() =>

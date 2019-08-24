@@ -8,7 +8,7 @@ import {
   deleteAccount,
   updateDeleteSession
 } from "../../actions/accountActions";
-import { Segment, Button, Container, Header } from "semantic-ui-react";
+import { Segment, Button, Container, Header, Icon } from "semantic-ui-react";
 import SessionList from "./SessionList";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
@@ -72,11 +72,9 @@ const AccountBoard = ({
           to="/edit-personal-details"
           className="ui button"
         >
-          Edit Personal Details
+          Edit Personal Details <Icon name="settings" />
         </Link>
         <Button
-          size="sm"
-          color="danger"
           style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
           onClick={() => deleteAccount()}
         >

@@ -31,7 +31,12 @@ const HighlightedQueries = ({
             </Item.Meta>
             <Item.Description>{link.snippet}</Item.Description>
             <Item.Extra>
-              <Button icon="eye" href={link.link} target="_blank" />
+              <Button
+                icon="eye"
+                href={link.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
               <Button
                 icon="thumbs up outline"
                 onClick={() => addLike(session._id, link._id)}
@@ -62,6 +67,8 @@ const HighlightedQueries = ({
               Likes: {link.likes.length}
               <br />
               Added on: <Moment format="DD/MM/YYYY">{link.date}</Moment>
+              <br />
+              Added by: {link.user}
             </Item.Meta>
           </Item.Content>
         </Item>
@@ -71,7 +78,10 @@ const HighlightedQueries = ({
 
   return (
     <Fragment>
-      <Container>{highlightedSearches}</Container>
+      <Container>
+        <Header dividing>Highlighted Searches</Header>
+        {highlightedSearches}
+      </Container>
     </Fragment>
   );
 };
