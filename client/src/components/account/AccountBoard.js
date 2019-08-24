@@ -55,8 +55,8 @@ const AccountBoard = ({
     // updateDeleteSession,
     // sessions
   ]);
-
-  return loading && sessions && authentication.user === null ? (
+  const sesh = sessions;
+  return sesh.length === 0 ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -65,7 +65,7 @@ const AccountBoard = ({
           <Header>
             Welcome {authentication.user && authentication.user.name}
           </Header>
-          <SessionList sessions={sessions} user={user} loading={loading} />
+          <SessionList userSessions={sessions} user={user} loading={loading} />
         </Segment>
         <Link
           style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}

@@ -7,20 +7,13 @@ import { deleteSession } from "../../actions/accountActions";
 import { removeUser } from "../../actions/sessionActions";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import Spinner from "../layout/Spinner";
 import CreateSessionModal from "./CreateSessionModal";
 import Moment from "react-moment";
 
-const SessionList = ({
-  sessions,
-  deleteSession,
-  removeUser,
-  user,
-  loading
-}) => {
+const SessionList = ({ userSessions, deleteSession, removeUser, user }) => {
   const sessionList = (
     <Item.Group divided>
-      {sessions.map(session => (
+      {userSessions.map(session => (
         <Item key={session._id}>
           <Item.Content>
             <Item.Header>{session.name}</Item.Header>
@@ -67,25 +60,16 @@ const SessionList = ({
       ))}
     </Item.Group>
   );
-  const sesh = sessions;
-  return loading === null ? (
-    <Spinner />
-  ) : sesh.length !== 0 ? (
+  return (
     <Fragment>
       <CreateSessionModal />
       {sessionList}
-    </Fragment>
-  ) : (
-    <Fragment>
-      <Alert color="info">You have not created any sessions. </Alert>
-      <CreateSessionModal />
     </Fragment>
   );
 };
 
 SessionList.propTypes = {
   deleteSession: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
   removeUser: PropTypes.func.isRequired
 };
 
