@@ -11,7 +11,6 @@ import SessionList from "./components/account/SessionList";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import AccountBoard from "./components/account/AccountBoard";
-// import ChatSideBar from "./components/session/ChatSideBar";
 import SessionView from "./components/session/SessionView";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
