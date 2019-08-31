@@ -46,7 +46,7 @@ const HighlightedQueries = ({
                 onClick={() => removeLike(session._id, link._id)}
               />
               {!authentication.loading &&
-                link.user === authentication.user._id && (
+                link.user === authentication.user.name && (
                   <Button
                     icon="trash alternate outline"
                     onClick={() =>

@@ -144,7 +144,7 @@ router.get("/me", auth, async (req, res) => {
 router.delete("/", auth, async (req, res) => {
   try {
     // delete user's sessions
-    await Session.deleteMany({ author: req.user.id });
+    // await Session.deleteMany({ author: req.user.id });
     // delete user
     await User.findOneAndRemove({ _id: req.user.id });
     res.json({ msg: "User deleted" });

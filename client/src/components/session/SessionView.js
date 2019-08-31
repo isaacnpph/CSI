@@ -8,7 +8,7 @@ import SearchBox from "./SearchBox";
 import { Container, Segment, Grid, Header } from "semantic-ui-react";
 import HighlightedQueries from "./HighlightedQueries";
 // import QueryHistory from "./QueryHistory";
-import Chat from "./Chat";
+// import Chat from "./Chat";
 import InviteUserModal from "./InviteUserModal";
 import RemoveUserModal from "./RemoveUserModal";
 import {
@@ -20,6 +20,7 @@ import {
   removeCommentUpdate,
   removeUserUpdate
 } from "../../actions/sessionActions";
+import ChatLauncher from "./ChatLauncher";
 
 const SessionView = ({
   getSessionById,
@@ -101,10 +102,10 @@ const SessionView = ({
                   </div>
                 )}
             </Header>
-            <Grid columns={3} style={{ height: "80vh" }} divided>
+            <Grid columns={2} style={{ height: "85h" }} divided>
               <Grid.Row stretched>
                 <Grid.Column>
-                  <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
+                  <Segment style={{ overflow: "auto", maxHeight: "85vh" }}>
                     <SearchBox />
                   </Segment>
                 </Grid.Column>
@@ -112,8 +113,8 @@ const SessionView = ({
                   <Segment
                     style={{
                       overflow: "auto",
-                      height: "80vh",
-                      maxHeight: "80vh"
+                      height: "85vh",
+                      maxHeight: "85vh"
                     }}
                   >
                     <HighlightedQueries
@@ -122,16 +123,12 @@ const SessionView = ({
                     />
                   </Segment>
                 </Grid.Column>
-                <Grid.Column>
-                  <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
-                    <Chat socket={socket} session={session} />
-                  </Segment>
-                </Grid.Column>
               </Grid.Row>
             </Grid>
           </Container>
         </Fragment>
       )}
+      <ChatLauncher socket={socket} session={session} />
     </Fragment>
   );
 };

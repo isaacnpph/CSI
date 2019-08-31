@@ -1,11 +1,11 @@
-const app = require('express')();
-const path = require("path");
+const app = require("express")();
+// const path = require("path");
 const connectDB = require("./config/db");
 const cors = require("cors");
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
-const bodyParser = require('body-parser');
-const chat = require('./chat');
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+const bodyParser = require("body-parser");
+const chat = require("./chat");
 
 // Connect database
 connectDB();
@@ -13,20 +13,18 @@ connectDB();
 // init middleware
 app.use(bodyParser.json());
 
-
-global.socket_clients = []
+global.socket_clients = [];
 
 // Socket.io
-io.on('connection', function(socket){
-    
-    let handshake = socket.request;
-    global.socket_clients.push({
-        user_id: handshake._query['user_id'],
-        socket
-    });
-    
-    // Chat handler
-    chat(socket, handshake._query['user_id']);
+io.on("connection", function(socket) {
+  let handshake = socket.request;
+  global.socket_clients.push({
+    user_id: handshake._query["user_id"],
+    socket
+  });
+
+  // Chat handler
+  chat(socket, handshake._query["user_id"]);
 });
 
 // Enable CORS

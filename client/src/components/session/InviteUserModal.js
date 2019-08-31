@@ -35,7 +35,12 @@ const InviteUserModal = ({ session: { session }, inviteUser }) => {
 
   return (
     <Fragment>
-      <Button circular icon="add user" onClick={e => onClick(e)} />
+      <Button
+        className="addUserButton"
+        circular
+        icon="add user"
+        onClick={e => onClick(e)}
+      />
       <Modal isOpen={modal} toggle={e => onClick(e)}>
         <ModalHeader toggle={e => onClick(e)}>
           Invite friend to your session

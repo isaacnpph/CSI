@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Spinner from "../layout/Spinner";
 import {
   getCurrentUser,
   getSessions,
@@ -10,10 +10,9 @@ import {
 } from "../../actions/accountActions";
 import { Segment, Button, Container, Header, Icon } from "semantic-ui-react";
 import SessionList from "./SessionList";
-import { Link } from "react-router-dom";
+import CreateSessionModal from "./CreateSessionModal";
 import io from "socket.io-client";
 import { setInitialSocket } from "../../actions/socketActions";
-import CreateSessionModal from "./CreateSessionModal";
 
 let socket;
 
@@ -55,7 +54,7 @@ const AccountBoard = ({
     socketState.socket_connected,
     updateDeleteSession
   ]);
-  return sessions.length === 0 ? (
+  return sessions && user === null ? (
     <Container className="main container">
       <Header>Welcome {authentication.user && authentication.user.name}</Header>
       <CreateSessionModal />
@@ -74,30 +73,28 @@ const AccountBoard = ({
       </Button>
     </Container>
   ) : (
-    <Fragment>
-      <Container className="main container">
-        <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
-          <Header>
-            Welcome {authentication.user && authentication.user.name}
-          </Header>
-          <CreateSessionModal />
-          <SessionList userSessions={sessions} user={user} loading={loading} />
-        </Segment>
-        <Link
-          style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
-          to="/edit-personal-details"
-          className="ui button"
-        >
-          Edit Personal Details <Icon name="settings" />
-        </Link>
-        <Button
-          style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
-          onClick={() => deleteAccount()}
-        >
-          Delete Account
-        </Button>
-      </Container>
-    </Fragment>
+    <Container className="main container">
+      <Segment style={{ overflow: "auto", maxHeight: "80vh" }}>
+        <Header>
+          Welcome {authentication.user && authentication.user.name}
+        </Header>
+        <CreateSessionModal />
+        <SessionList userSessions={sessions} user={user} loading={loading} />
+      </Segment>
+      <Link
+        style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
+        to="/edit-personal-details"
+        className="ui button"
+      >
+        Edit Personal Details <Icon name="settings" />
+      </Link>
+      <Button
+        style={{ marginLeft: "0.3rem", marginTop: "0.3rem" }}
+        onClick={() => deleteAccount()}
+      >
+        Delete Account
+      </Button>
+    </Container>
   );
 };
 

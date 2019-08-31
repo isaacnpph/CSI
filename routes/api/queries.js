@@ -35,6 +35,7 @@ router.post(
       });
 
       const query = await newQuery.save();
+      console.log(query);
       res.json(query);
     } catch (err) {
       console.error(err.message);

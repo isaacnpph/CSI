@@ -16,7 +16,7 @@ const HomePage = ({ isAuthenticated }) => {
       <Grid columns={2} style={{ height: "90vh" }} relaxed="very">
         <Grid.Column>
           <Header as="h2" color="teal" textAlign="center">
-            Welcome to Collaboratie Search Interface
+            Welcome to Collaborative Search Interface
           </Header>
           <Image src={homePagePic} />
         </Grid.Column>

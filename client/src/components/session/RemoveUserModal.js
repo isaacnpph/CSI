@@ -30,7 +30,12 @@ const RemoveUserModal = ({ session: { session }, removeUser }) => {
 
   return (
     <Fragment>
-      <Button circular icon="remove user" onClick={e => onClick(e)} />
+      <Button
+        className="removeUserButton"
+        circular
+        icon="remove user"
+        onClick={e => onClick(e)}
+      />
       <Modal isOpen={modal} toggle={e => onClick(e)}>
         <ModalHeader toggle={e => onClick(e)}>
           Remove user from the session

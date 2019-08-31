@@ -3,10 +3,9 @@ import { connect } from "react-redux";
 
 // import PropTypes from "prop-types";
 
-const ChatMessage = ({user_name, msg}) => {
+const ChatMessage = ({ user_name, msg }) => {
   return (
     <Fragment>
-      <br />
       <br />
       <strong>{user_name}: </strong> {msg}
     </Fragment>

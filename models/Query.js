@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const QuerySchema = new mongoose.Schema({
   addedIn: { type: mongoose.Schema.Types.ObjectId, ref: "Session" },
   keyword: {

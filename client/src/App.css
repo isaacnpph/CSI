@@ -27,3 +27,44 @@
 .main.regPage {
   padding-top: 100px;
 }
+
+.chatButton {
+  position: fixed;
+  top: 50px;
+  right: 30px;
+  width: 200px;
+  height: 60px;
+  z-index: 1;
+}
+
+.addUserButton {
+  position: fixed;
+  top: 50px;
+  right: 269px;
+}
+
+.removeUserButton {
+  position: fixed;
+  top: 50px;
+  right: 230px;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 255px;
+}
+
+#toastzz {
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  position: fixed;
+  right: 200px;
+  width: 400px;
+  height: 50vh;
+  background: white;
+}
